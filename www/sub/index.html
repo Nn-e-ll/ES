@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ES</title>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/Navbar-Centered-Links-icons.css">
+    <link rel="stylesheet" href="../assets/css/Testimonials-Centered-images.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md bg-warning-subtle fw-bolder py-3" style="background: var(--bs-primary);">
+        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse d-xl-flex justify-content-xl-center" id="navcol-3">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Создать посещение</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/sub">Абонемент</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/sessions">Активные сеансы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/visitors">Посетители</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/subscriptioneditor">Редактор абонементов</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tariff">Редактор тарифов</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/aquapark">Аквапарки</a></li>
+                </ul>
+            </div>
+            <div>
+                <div><form class="form-inline">
+  <div class="form-group">
+     <select  class="form-control" id="aqua">
+         <option>нет</option>
+      </select>
+  </div>
+</form></div>
+            </div>
+        </div>
+    </nav>
+    <div><!-- ══════════════════ Оформить абонемент ══════════════════ -->
+<div class="container my-4" id="sell-sub-module">
+
+  <h3 class="mb-4">Оформить абонемент</h3>
+
+  <!-- 1. Текущий выбранный аквапарк показываем просто текстом -->
+  <p class="mb-4">
+    Аквапарк: <span id="park-caption" class="fw-bold text-primary">—</span>
+  </p>
+
+  <!-- 2. Поиск / выбор гостя -->
+  <div class="mb-4 position-relative" style="max-width:500px">
+    <label class="form-label fw-bold">Посетитель (ФИО или телефон)</label>
+    <input type="search" class="form-control" id="guest-search" placeholder="Начните вводить…">
+    <div class="list-group position-absolute w-100 d-none" id="guest-suggest"
+         style="z-index:1055; top:100%; max-height:260px; overflow:auto;"></div>
+    <input type="hidden" id="guest-id">
+  </div>
+
+  <!-- 3. Выбор вида абонемента -->
+  <div class="mb-4">
+    <label class="form-label fw-bold">Вид абонемента <small class="text-muted">(для текущего сезона)</small></label>
+    <select class="form-select" id="sub-select" disabled>
+      <option value="">— выберите вид —</option>
+    </select>
+    <div class="mt-2 small text-muted" id="sub-price">Цена: —</div>
+  </div>
+
+  <!-- 4. Способ оплаты -->
+  <div class="mb-4" style="max-width:200px">
+    <label class="form-label fw-bold">Способ оплаты</label>
+    <select class="form-select" id="pay-method">
+      <option value="карта">Карта</option>
+      <option value="наличные">Наличные</option>
+    </select>
+  </div>
+
+  <!-- 5. Кнопка подтверждения -->
+  <button class="btn btn-primary" id="btn-buy-sub" disabled>
+    Оформить абонемент
+  </button>
+</div>
+</div>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/js/aqua.js"></script>
+    <script src="../assets/js/buy_sub.js"></script>
+</body>
+
+</html>

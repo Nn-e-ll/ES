@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ES</title>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/Navbar-Centered-Links-icons.css">
+    <link rel="stylesheet" href="../assets/css/Testimonials-Centered-images.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md bg-warning-subtle fw-bolder py-3" style="background: var(--bs-primary);">
+        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse d-xl-flex justify-content-xl-center" id="navcol-3">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Создать посещение</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/sub">Абонемент</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/sessions">Активные сеансы</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link active" href="/visitors">Посетители</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/subscriptioneditor">Редактор абонементов</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tariff">Редактор тарифов</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/aquapark">Аквапарки</a></li>
+                </ul>
+            </div>
+            <div>
+                <div><form class="form-inline">
+  <div class="form-group">
+     <select  class="form-control" id="aqua">
+         <option>нет</option>
+      </select>
+  </div>
+</form></div>
+            </div>
+        </div>
+    </nav>
+    <div><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- ═══════════ Модуль «Посетители» ═══════════ -->
+<div class="container my-4" id="visitors-module">
+
+  <!-- Заголовок + кнопка «Новый» -->
+  <h3>Посетители</h3>
+  <div class="d-flex gap-2 mb-3">
+    <input class="form-control" type="search" placeholder="Поиск по ФИО или телефону"
+           id="visitor-search" style="max-width: 320px;">
+    <button class="btn btn-success" id="btn-new-visitor">+ Новый посетитель</button>
+  </div>
+
+  <!-- Таблица (по умолчанию ~10 строк, wrapper.collapsed) -->
+  <div class="table-wrapper collapsed" id="wrap-vis">
+    <table class="table table-sm table-hover align-middle" id="tbl-vis">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th><th>ФИО</th><th>Телефон</th><th>Email</th><th>Дата рожд.</th><th>Создано</th><th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="text-center">
+    <button class="btn btn-outline-primary btn-sm" id="toggle-vis">Показать список</button>
+  </div>
+</div>
+
+<!-- ═════ Модал создания/редактирования посетителя ═════ -->
+<div class="modal fade" id="modal-visitor" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog"><div class="modal-content">
+
+    <div class="modal-header">
+      <h5 class="modal-title" id="vis-modal-title">Новый посетитель</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body">
+      <form id="form-visitor" class="row g-3">
+        <input type="hidden" id="vis-id" name="ид">
+
+        <div class="col-12">
+          <label class="form-label">ФИО</label>
+          <input class="form-control" name="ФИО" id="vis-name" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Дата рождения</label>
+          <input type="date" class="form-control" name="дата_рождения"
+                 id="vis-birth" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Телефон</label>
+          <input class="form-control" name="телефон" id="vis-phone">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">E-mail</label>
+          <input type="email" class="form-control" name="email" id="vis-email">
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer d-flex flex-wrap gap-2">
+      <button class="btn btn-danger me-auto" id="btn-vis-delete" style="display:none">
+        Удалить
+      </button>
+
+      <!-- дополнительные кнопки (логика допилится позже) -->
+      <button class="btn btn-outline-info" id="btn-vis-abons">Абонементы</button>
+      <button class="btn btn-outline-secondary" id="btn-vis-history">История посещений</button>
+
+      <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+      <button class="btn btn-primary" id="btn-vis-save">Сохранить</button>
+    </div>
+
+  </div></div>
+</div>
+        <div>
+            <!-- ═══ Модал: абонементы / история ═══ -->
+            <div class="modal fade" id="modal-extra" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg"><div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="extra-title"></h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped mb-0" id="extra-table">
+                                <thead class="table-light"><tr id="extra-head"></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div></div>
+            </div>
+
+        </div>
+
+
+
+<!-- Bootstrap JS (bundle) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script></div>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/js/visitors.js"></script>
+    <script src="../assets/js/aqua.js"></script>
+    <script src="../assets/js/visitors_extra.js"></script>
+</body>
+
+</html>

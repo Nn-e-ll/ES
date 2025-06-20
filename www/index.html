@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ES</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
+    <link rel="stylesheet" href="assets/css/Testimonials-Centered-images.css">
+</head>
+
+<body style="transform: skew(0deg);">
+    <nav class="navbar navbar-expand-md bg-warning-subtle fw-bolder py-3" style="background: var(--bs-primary);">
+        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse d-xl-flex justify-content-xl-center" id="navcol-3">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/">Создать посещение</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/sub">Абонемент</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/sessions">Активные сеансы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/visitors">Посетители</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/subscriptioneditor">Редактор абонементов</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tariff">Редактор тарифов</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/aquapark">Аквапарки</a></li>
+                </ul>
+            </div>
+            <div>
+                <div><form class="form-inline">
+  <div class="form-group">
+     <select  class="form-control" id="aqua">
+         <option>нет</option>
+      </select>
+  </div>
+</form></div>
+            </div>
+        </div>
+    </nav>
+    <div><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <div class="container my-4" id="visit-create-module">
+
+            <h3 class="mb-3">Регистрация посещений</h3>
+
+            <!-- Аквапарк из шапочного селекта -->
+            <p>Аквапарк: <span id="vc-park-name" class="fw-bold text-primary">—</span></p>
+
+            <!-- 1. Плательщик (ФИО или телефон) -->
+            <div class="mb-4 position-relative" style="max-width:480px">
+                <label class="form-label fw-bold">Плательщик</label>
+                <input type="search" class="form-control" id="payer-search" placeholder="Начните вводить…">
+                <div class="list-group position-absolute w-100 d-none" id="payer-suggest"
+                     style="z-index:1055; top:100%; max-height:240px; overflow:auto;"></div>
+                <input type="hidden" id="payer-id">
+            </div>
+
+            <!-- 2. Добавить билеты -->
+            <button class="btn btn-outline-primary mb-3" id="btn-add-ticket" disabled>
+                + Добавить билет
+            </button>
+
+            <!-- 3. Таблица сформированных билетов/абонемента -->
+            <div class="table-responsive mb-4">
+                <table class="table table-sm align-middle" id="tickets-table">
+                    <thead class="table-light">
+                    <tr>
+                        <th>#</th><th>Тип</th><th>Детали</th><th>Кол-во</th><th>Сумма ₽</th><th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-muted" id="tickets-empty"><td colspan="6" class="text-center p-3">
+                        Нет добавленных билетов
+                    </td></tr>
+                    </tbody>
+                    <tfoot class="table-light">
+                    <tr>
+                        <th colspan="4" class="text-end">Итого к оплате:</th>
+                        <th id="tickets-total">0.00</th><th></th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- 4. Способ оплаты (показывается, если сумма > 0) -->
+            <div class="mb-4" id="pay-block" style="display:none; max-width:220px">
+                <label class="form-label fw-bold">Способ оплаты</label>
+                <select class="form-select" id="pay-method">
+                    <option value="карта">Карта</option>
+                    <option value="наличные">Наличные</option>
+                </select>
+            </div>
+
+            <!-- 5. Подтвердить -->
+            <button class="btn btn-success" id="btn-confirm" disabled>
+                Сохранить посещения
+            </button>
+        </div>
+
+        <!-- ═════════ Modal «Добавить билет» ═════════ -->
+        <div class="modal fade" id="modal-ticket" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog"><div class="modal-content">
+                <div class="modal-header p-2">
+                    <h5 class="modal-title">Новый билет</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Тип: тариф / абонемент -->
+                    <div class="mb-3">
+                        <label class="form-label">Тип посещения</label>
+                        <div>
+                            <input class="form-check-input me-1" type="radio" name="t-type" id="t-tariff" value="tariff" checked>
+                            <label class="form-check-label me-3" for="t-tariff">По тарифу</label>
+
+                            <input class="form-check-input me-1" type="radio" name="t-type" id="t-abon" value="abon">
+                            <label class="form-check-label" for="t-abon">По абонементу (1 чел.)</label>
+                        </div>
+                    </div>
+
+                    <!-- Блок тарифов -->
+                    <div class="mb-3" id="t-tariff-block">
+                        <label class="form-label">Тариф</label>
+                        <select class="form-select" id="t-tariff-select">
+                            <option value="">— загрузите список —</option>
+                        </select>
+
+                        <!-- Кол-во билетов -->
+                        <div class="mt-2" style="max-width:130px">
+                            <label class="form-label">Кол-во</label>
+                            <input type="number" class="form-control" id="t-qty" min="1" value="1">
+                        </div>
+                    </div>
+
+                    <!-- Блок абонемента -->
+                    <div class="mb-3 d-none" id="t-abon-block">
+                        <label class="form-label">Активный абонемент</label>
+                        <select class="form-select" id="t-abon-select">
+                            <option value="">— нет активных —</option>
+                        </select>
+                        <div class="small text-muted" id="t-abon-left"></div>
+                    </div>
+                </div>
+
+                <div class="modal-footer py-2">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button class="btn btn-primary" id="t-btn-add" disabled>Добавить</button>
+                </div>
+            </div></div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script></div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/aqua.js"></script>
+    <script src="assets/js/visit_create.js"></script>
+</body>
+
+</html>
